@@ -4,57 +4,75 @@ import java.awt.event.*;
 import java.sql.*;
 
 public class LoginFrame extends JFrame {
-    JTextField userField;
-    JPasswordField passField;
+    private JTextField usernameField;
+    private JPasswordField passwordField;
 
     public LoginFrame() {
-        setTitle("Login - Expense Tracker");
-        setSize(350, 200);
-        setDefaultCloseOperation(EXIT_ON_CLOSE);
+        setTitle("Login");
+        setSize(500, 400);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
 
         JPanel panel = new JPanel();
-        panel.setLayout(new GridLayout(3, 2, 10, 10));
-        panel.setBackground(new Color(173, 216, 230)); // Light Blue
+        panel.setBackground(new Color(173, 216, 230));
+        panel.setLayout(null);
 
-        panel.add(new JLabel("Username:"));
-        userField = new JTextField();
-        panel.add(userField);
+        JLabel label = new JLabel("Login");
+        label.setFont(new Font("Arial", Font.BOLD, 24));
+        label.setBounds(200, 30, 200, 30);
+        panel.add(label);
 
-        panel.add(new JLabel("Password:"));
-        passField = new JPasswordField();
-        panel.add(passField);
+        JLabel userLabel = new JLabel("Username:");
+        userLabel.setBounds(100, 100, 100, 30);
+        panel.add(userLabel);
 
-        JButton loginBtn = new JButton("Login");
-        loginBtn.addActionListener(e -> authenticate());
-        panel.add(loginBtn);
+        usernameField = new JTextField();
+        usernameField.setBounds(200, 100, 200, 30);
+        panel.add(usernameField);
 
-        JButton signupBtn = new JButton("Signup");
-        signupBtn.addActionListener(e -> new SignupFrame());
-        panel.add(signupBtn);
+        JLabel passLabel = new JLabel("Password:");
+        passLabel.setBounds(100, 150, 100, 30);
+        panel.add(passLabel);
+
+        passwordField = new JPasswordField();
+        passwordField.setBounds(200, 150, 200, 30);
+        panel.add(passwordField);
+
+        JButton loginButton = new JButton("Login");
+        loginButton.setBounds(150, 220, 200, 40);
+        loginButton.setBackground(new Color(0, 51, 102));
+        loginButton.setForeground(Color.WHITE);
+        loginButton.setFont(new Font("Arial", Font.BOLD, 16));
+        loginButton.addActionListener(e -> login());
+        panel.add(loginButton);
 
         add(panel);
         setVisible(true);
     }
 
-    private void authenticate() {
-        String username = userField.getText();
-        String password = new String(passField.getPassword());
+    private void login() {
+        String username = usernameField.getText();
+        String password = new String(passwordField.getPassword());
 
-        try (Connection conn = DBConnection.getConnection()) {
+        try {
+            Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/expense_tracker", "root", "");
             PreparedStatement stmt = conn.prepareStatement("SELECT * FROM users WHERE username=? AND password=?");
             stmt.setString(1, username);
             stmt.setString(2, password);
             ResultSet rs = stmt.executeQuery();
 
             if (rs.next()) {
+                JOptionPane.showMessageDialog(this, "Login successful!");
+                new DashboardFrame();
                 dispose();
-                new DashboardFrame(username);
             } else {
                 JOptionPane.showMessageDialog(this, "Invalid credentials.");
             }
-        } catch (SQLException e) {
-            e.printStackTrace();
+
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Error: " + ex.getMessage());
         }
     }
 }
+

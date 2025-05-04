@@ -1,50 +1,71 @@
 import javax.swing.*;
 import java.awt.*;
-import java.sql.SQLException;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
+import java.awt.event.*;
+import java.sql.*;
 
 public class SignupFrame extends JFrame {
-    JTextField userField;
-    JPasswordField passField;
+    private JTextField usernameField;
+    private JPasswordField passwordField;
 
     public SignupFrame() {
-        setTitle("Signup - Expense Tracker");
-        setSize(300, 180);
+        setTitle("Sign Up");
+        setSize(500, 400);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
-        JPanel panel = new JPanel(new GridLayout(3, 2, 10, 10));
+
+        JPanel panel = new JPanel();
         panel.setBackground(new Color(173, 216, 230));
+        panel.setLayout(null);
 
-        panel.add(new JLabel("New Username:"));
-        userField = new JTextField();
-        panel.add(userField);
+        JLabel label = new JLabel("Sign Up");
+        label.setFont(new Font("Arial", Font.BOLD, 24));
+        label.setBounds(200, 30, 200, 30);
+        panel.add(label);
 
-        panel.add(new JLabel("New Password:"));
-        passField = new JPasswordField();
-        panel.add(passField);
+        JLabel userLabel = new JLabel("Username:");
+        userLabel.setBounds(100, 100, 100, 30);
+        panel.add(userLabel);
 
-        JButton createBtn = new JButton("Create Account");
-        createBtn.addActionListener(e -> createUser());
-        panel.add(createBtn);
+        usernameField = new JTextField();
+        usernameField.setBounds(200, 100, 200, 30);
+        panel.add(usernameField);
+
+        JLabel passLabel = new JLabel("Password:");
+        passLabel.setBounds(100, 150, 100, 30);
+        panel.add(passLabel);
+
+        passwordField = new JPasswordField();
+        passwordField.setBounds(200, 150, 200, 30);
+        panel.add(passwordField);
+
+        JButton signupButton = new JButton("Sign Up");
+        signupButton.setBounds(150, 220, 200, 40);
+        signupButton.setBackground(new Color(0, 51, 102));
+        signupButton.setForeground(Color.WHITE);
+        signupButton.setFont(new Font("Arial", Font.BOLD, 16));
+        signupButton.addActionListener(e -> signUp());
+        panel.add(signupButton);
 
         add(panel);
         setVisible(true);
     }
 
-    private void createUser() {
-        String username = userField.getText();
-        String password = new String(passField.getPassword());
+    private void signUp() {
+        String username = usernameField.getText();
+        String password = new String(passwordField.getPassword());
 
-        try (Connection conn = DBConnection.getConnection()) {
-            PreparedStatement stmt = conn.prepareStatement("INSERT INTO users(username, password) VALUES (?, ?)");
+        try {
+            Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/expense_tracker", "root", "");
+            PreparedStatement stmt = conn.prepareStatement("INSERT INTO users (username, password) VALUES (?, ?)");
             stmt.setString(1, username);
             stmt.setString(2, password);
             stmt.executeUpdate();
-            JOptionPane.showMessageDialog(this, "Account created! Now login.");
+            JOptionPane.showMessageDialog(this, "User registered successfully!");
+            new LoginFrame();
             dispose();
-        } catch (SQLException e) {
-            e.printStackTrace();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Error: " + ex.getMessage());
         }
     }
 }
