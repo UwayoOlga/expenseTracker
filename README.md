@@ -22,7 +22,7 @@ It features user authentication (signup, login, logout) and a clean, user-friend
     <td><img src="assets/dashboard.png" alt="Dashboard" width="900"/></td>
   </tr>
   <tr>
-    <td><img src="assets/accounts.png" alt="Accounts" width="900"/></td>
+    <td><img src="assets/accounts.png" alt="Accounts" width="400"/></td>
     <td><img src="assets/expenses.png" alt="Expenses" width="900"/></td>
   </tr>
   <tr>
