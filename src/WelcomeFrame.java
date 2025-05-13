@@ -10,7 +10,7 @@ public class WelcomeFrame extends JFrame {
         setLocationRelativeTo(null);
 
         JPanel panel = new JPanel();
-        panel.setBackground(new Color(173, 216, 230)); // Light blue
+        panel.setBackground(new Color(173, 216, 230));
         panel.setLayout(null);
 
         JLabel label = new JLabel("Welcome!");
