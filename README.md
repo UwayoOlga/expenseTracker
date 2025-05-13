@@ -19,11 +19,11 @@ It features user authentication (signup, login, logout) and a clean, user-friend
   </tr>
   <tr>
     <td><img src="assets/login.png" alt="Login" width="300"/></td>
-    <td><img src="assets/dashboard.png" alt="Dashboard" width="300"/></td>
+    <td><img src="assets/dashboard.png" alt="Dashboard" width="800"/></td>
   </tr>
   <tr>
-    <td><img src="assets/accounts.png" alt="Accounts" width="300"/></td>
-    <td><img src="assets/expenses.png" alt="Expenses" width="300"/></td>
+    <td><img src="assets/accounts.png" alt="Accounts" width="700"/></td>
+    <td><img src="assets/expenses.png" alt="Expenses" width="700"/></td>
   </tr>
   <tr>
     <td><img src="assets/logout.png" alt="Logout" width="300"/></td>
