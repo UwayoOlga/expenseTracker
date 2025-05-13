@@ -31,6 +31,8 @@ It features user authentication (signup, login, logout) and a clean, user-friend
   </tr>
 </table>
 
+## Database schema
+<img src="assets/schema.png" alt="Welcome" width="300"/>
 
 ## Technologies Used
 
